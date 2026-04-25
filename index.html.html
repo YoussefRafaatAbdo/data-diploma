@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analysis Diploma – Summer 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD700;
+    --gold2: #FFA500;
+    --dark: #0a0a0f;
+    --darker: #050508;
+    --blue: #00c6ff;
+    --blue2: #0072ff;
+    --accent: #ff6b00;
+    --white: #ffffff;
+    --green: #00e676;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    font-family: 'Cairo', sans-serif;
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── BG ─── */
+  .bg-grid {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,198,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,198,255,0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    z-index: 0;
+    animation: gridMove 25s linear infinite;
+  }
+  @keyframes gridMove { to { background-position: 44px 44px; } }
+
+  .bg-glow {
+    position: fixed; border-radius: 50%;
+    filter: blur(130px); z-index: 0;
+  }
+  .g1 { width:700px;height:700px;background:var(--blue2);top:-250px;right:-200px;opacity:.12;animation:gp 7s ease-in-out infinite; }
+  .g2 { width:600px;height:600px;background:var(--accent);bottom:-200px;left:-200px;opacity:.10;animation:gp 9s ease-in-out infinite reverse; }
+  .g3 { width:400px;height:400px;background:var(--gold);top:40%;left:30%;opacity:.05;animation:gp 11s ease-in-out infinite 2s; }
+  @keyframes gp { 0%,100%{transform:scale(1)}50%{transform:scale(1.18)} }
+
+  /* ─── WRAPPER ─── */
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  /* ─── TOP LABEL ─── */
+  .top-label {
+    text-align: center; margin-bottom: 24px;
+    animation: fadeUp .6s ease both;
+  }
+  .top-label span {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--blue2), var(--blue));
+    color: #fff; font-size: 12px; font-weight: 800;
+    letter-spacing: 3px; padding: 8px 30px;
+    border-radius: 50px; text-transform: uppercase;
+    box-shadow: 0 0 30px rgba(0,114,255,.45);
+  }
+
+  /* ─── SIGNAL BARS ─── */
+  .signal { display:flex;align-items:flex-end;gap:4px;justify-content:center;margin:6px 0 20px; }
+  .bar { width:9px;border-radius:2px;animation:ba 1.6s ease-in-out infinite; }
+  .bar:nth-child(1){height:10px;background:#4CAF50;animation-delay:0s}
+  .bar:nth-child(2){height:17px;background:#2196F3;animation-delay:.15s}
+  .bar:nth-child(3){height:24px;background:#9C27B0;animation-delay:.3s}
+  .bar:nth-child(4){height:32px;background:var(--blue);animation-delay:.45s}
+  .bar:nth-child(5){height:40px;background:var(--gold);animation-delay:.6s}
+  @keyframes ba{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.55;transform:scaleY(.8)}}
+
+  /* ─── HERO ─── */
+  .hero { text-align:center; margin-bottom:32px; animation:fadeUp .7s ease both .1s; }
+  .hero h1 {
+    font-family:'Tajawal',sans-serif;
+    font-size: clamp(30px,6.5vw,58px);
+    font-weight:900; line-height:1.15;
+    background:linear-gradient(135deg,var(--gold),var(--gold2),#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:10px;
+  }
+  .hero p { font-size:clamp(15px,2.8vw,20px); color:rgba(255,255,255,.65); font-weight:600; margin-bottom:10px; }
+  .hero .tag { font-size:clamp(13px,2.2vw,16px); color:var(--blue); font-weight:800; letter-spacing:1px; }
+
+  /* ─── DIVIDER ─── */
+  .divider { display:flex;align-items:center;gap:14px;margin:28px 0; }
+  .dline { flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .dico { color:var(--gold);font-size:18px; }
+
+  /* ─── NEW BANNER ─── */
+  .new-banner {
+    background:linear-gradient(135deg,#1a0800,#2d1200);
+    border:2px solid var(--accent); border-radius:18px;
+    padding:22px 28px; text-align:center; margin-bottom:32px;
+    position:relative; overflow:hidden;
+    box-shadow:0 0 50px rgba(255,107,0,.18);
+    animation:fadeUp .7s ease both .2s;
+  }
+  .new-banner::before {
+    content:''; position:absolute; top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:radial-gradient(circle,rgba(255,107,0,.07) 0%,transparent 60%);
+    animation:rot 10s linear infinite;
+  }
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .nlabel {
+    display:inline-block;background:var(--accent);color:#fff;
+    font-size:11px;font-weight:900;padding:4px 18px;
+    border-radius:50px;letter-spacing:2px;margin-bottom:10px;
+    position:relative;
+  }
+  .new-banner p { font-size:clamp(14px,2.8vw,19px);font-weight:800;color:#fff;position:relative; }
+  .new-banner p span{color:var(--gold);}
+
+  /* ─── SECTION TITLE ─── */
+  .sec-title {
+    font-family:'Tajawal',sans-serif;
+    font-size:clamp(17px,3.2vw,24px); font-weight:900;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .sec-title::before {
+    content:'';display:block;width:5px;height:28px;
+    background:linear-gradient(to bottom,var(--blue),var(--blue2));
+    border-radius:3px;flex-shrink:0;
+  }
+
+  /* ─── CURRICULUM GRID ─── */
+  .cur-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:14px; margin-bottom:32px;
+    animation:fadeUp .7s ease both .3s;
+  }
+  .gen-card {
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px;
+    transition:all .3s; position:relative; overflow:hidden;
+  }
+  .gen-card::before {
+    content:'';position:absolute;top:0;right:0;
+    width:60px;height:60px;border-radius:0 14px 0 60px;opacity:.15;
+  }
+  .gen-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07)}
+  .g2c::before{background:#4CAF50}.g3c::before{background:#2196F3}
+  .g4c::before{background:#9C27B0}.g5c::before{background:var(--blue)}
+  .kpic::before{background:var(--gold)}
+  .glabel {
+    font-size:11px;font-weight:900;letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .g2c .glabel{color:#4CAF50}.g2c .dot{background:#4CAF50}
+  .g3c .glabel{color:#2196F3}.g3c .dot{background:#2196F3}
+  .g4c .glabel{color:#9C27B0}.g4c .dot{background:#9C27B0}
+  .g5c .glabel{color:var(--blue)}.g5c .dot{background:var(--blue)}
+  .kpic .glabel{color:var(--gold)}.kpic .dot{background:var(--gold)}
+  .gtitle{font-size:clamp(14px,2.3vw,17px);font-weight:800;color:#fff;margin-bottom:6px;}
+  .gdetail{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;font-weight:600;}
+
+  /* ─── BENEFITS ─── */
+  .ben-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:12px; margin-bottom:32px;
+    animation:fadeUp .7s ease both .4s;
+  }
+  .ben-item {
+    background:rgba(0,198,255,.06);
+    border:1px solid rgba(0,198,255,.15);
+    border-radius:12px; padding:14px 16px;
+    display:flex;align-items:flex-start;gap:12px;
+    transition:all .3s;
+  }
+  .ben-item:hover{background:rgba(0,198,255,.11);border-color:rgba(0,198,255,.3);transform:translateY(-2px)}
+  .bico{font-size:22px;flex-shrink:0;margin-top:1px;}
+  .btxt{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);line-height:1.5;}
+
+  /* ─── CERTS ─── */
+  .certs {
+    display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:32px;animation:fadeUp .7s ease both .45s;
+  }
+  .cert {
+    background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.04));
+    border:1px solid rgba(255,215,0,.3);border-radius:50px;
+    padding:7px 18px;font-size:12px;font-weight:800;color:var(--gold);
+    display:flex;align-items:center;gap:6px;transition:all .3s;
+  }
+  .cert:hover{background:rgba(255,215,0,.16);transform:scale(1.05)}
+
+  /* ─── PRICE ─── */
+  .price-box {
+    background:linear-gradient(135deg,#050d1a,#0a1628);
+    border:1px solid rgba(0,198,255,.2);
+    border-radius:22px; padding:34px; text-align:center;
+    margin-bottom:40px; position:relative; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+    animation:fadeUp .7s ease both .5s;
+  }
+  .price-box::after {
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--blue2),var(--blue),var(--blue2));
+  }
+  .plabel{font-size:13px;color:rgba(255,255,255,.45);font-weight:700;letter-spacing:2px;margin-bottom:14px;}
+  .prices{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:10px;}
+  .pold{font-size:clamp(22px,4vw,34px);font-weight:900;color:rgba(255,255,255,.22);text-decoration:line-through;text-decoration-color:rgba(255,80,80,.7);}
+  .pnew{
+    font-family:'Tajawal',sans-serif;
+    font-size:clamp(42px,8vw,76px);font-weight:900;line-height:1;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    filter:drop-shadow(0 0 22px rgba(255,215,0,.4));
+  }
+  .pcur{font-size:clamp(18px,3vw,26px);font-weight:800;color:var(--gold2);align-self:flex-end;padding-bottom:10px;}
+  .save{
+    display:inline-block;background:linear-gradient(135deg,#ff4444,#cc0000);
+    color:#fff;font-size:13px;font-weight:900;padding:7px 22px;
+    border-radius:50px;margin-top:10px;
+    box-shadow:0 4px 22px rgba(255,68,68,.4);letter-spacing:1px;
+  }
+
+  /* ─── FORM SECTION ─── */
+  .form-section {
+    background:linear-gradient(135deg,#080d18,#0d1525);
+    border:1px solid rgba(0,198,255,.18);
+    border-radius:24px; padding:40px 36px;
+    position:relative; overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    animation:fadeUp .7s ease both .6s;
+  }
+  .form-section::before {
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--gold),var(--blue),var(--gold));
+    background-size:200%;animation:shimmer 3s linear infinite;
+  }
+  @keyframes shimmer{to{background-position:200% center}}
+
+  .form-title {
+    font-family:'Tajawal',sans-serif;
+    font-size:clamp(20px,4vw,30px);font-weight:900;
+    text-align:center;margin-bottom:6px;
+    background:linear-gradient(135deg,var(--gold),var(--white));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .form-sub {
+    text-align:center;font-size:14px;color:rgba(255,255,255,.5);
+    font-weight:600;margin-bottom:32px;
+  }
+
+  .field-group { margin-bottom:22px; }
+  .field-label {
+    display:block;font-size:13px;font-weight:800;
+    color:rgba(255,255,255,.7);margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .field-label .req{color:var(--accent);font-size:15px;}
+  .field-label .ficon{font-size:16px;}
+
+  .field-input {
+    width:100%;
+    background:rgba(255,255,255,.05);
+    border:1.5px solid rgba(255,255,255,.12);
+    border-radius:12px;
+    padding:14px 18px;
+    font-family:'Cairo',sans-serif;
+    font-size:15px;font-weight:600;
+    color:#fff;
+    outline:none;
+    transition:all .3s;
+    direction:rtl;
+  }
+  .field-input::placeholder{color:rgba(255,255,255,.25);}
+  .field-input:focus {
+    border-color:var(--blue);
+    background:rgba(0,198,255,.07);
+    box-shadow:0 0 0 4px rgba(0,198,255,.1);
+  }
+  .field-input.valid {
+    border-color:var(--green);
+    background:rgba(0,230,118,.05);
+  }
+  .field-input.error {
+    border-color:#ff4444;
+    background:rgba(255,68,68,.05);
+    box-shadow:0 0 0 4px rgba(255,68,68,.1);
+  }
+
+  .field-hint{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px;font-weight:600;}
+  .field-error{font-size:12px;color:#ff6b6b;margin-top:5px;font-weight:700;display:none;}
+
+  /* Submit btn */
+  .submit-btn {
+    width:100%;
+    background:linear-gradient(135deg,var(--blue2),var(--blue));
+    color:#fff;
+    font-family:'Cairo',sans-serif;
+    font-size:clamp(16px,3vw,20px);font-weight:900;
+    padding:18px;border-radius:60px;
+    border:none;cursor:pointer;
+    letter-spacing:1px;
+    box-shadow:0 10px 40px rgba(0,114,255,.4);
+    transition:all .3s; position:relative; overflow:hidden;
+    margin-top:10px;
+  }
+  .submit-btn::after {
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .submit-btn:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(0,114,255,.6);}
+  .submit-btn:hover::after{opacity:1;}
+  .submit-btn:active{transform:translateY(0);}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+  /* Loading spinner */
+  .spinner {
+    display:inline-block;width:20px;height:20px;
+    border:3px solid rgba(255,255,255,.3);
+    border-top-color:#fff;border-radius:50%;
+    animation:spin .8s linear infinite;vertical-align:middle;margin-left:8px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Success state */
+  .success-msg {
+    display:none;text-align:center;padding:40px 20px;
+  }
+  .success-icon{font-size:64px;margin-bottom:20px;animation:pop .5s ease both;}
+  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+  .success-title{font-family:'Tajawal',sans-serif;font-size:26px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .success-sub{font-size:15px;color:rgba(255,255,255,.6);font-weight:600;line-height:1.6;}
+
+  /* ─── CONTACT ─── */
+  .contact-row {
+    display:flex;justify-content:center;align-items:center;
+    gap:24px;flex-wrap:wrap;margin-top:32px;
+    animation:fadeUp .7s ease both .7s;
+  }
+  .contact-item{
+    display:flex;align-items:center;gap:8px;
+    font-size:15px;font-weight:700;color:rgba(255,255,255,.75);
+  }
+  .contact-item a{color:var(--blue);text-decoration:none;transition:color .3s;}
+  .contact-item a:hover{color:var(--gold);}
+
+  /* ─── HASHTAGS ─── */
+  .hashtags{
+    text-align:center;margin-top:28px;
+    font-size:12px;color:rgba(255,255,255,.25);
+    font-weight:600;line-height:2.2;
+    animation:fadeUp .7s ease both .8s;
+  }
+  .hashtags span{margin:0 4px;cursor:pointer;transition:color .3s;}
+  .hashtags span:hover{color:var(--blue);}
+
+  /* ─── ANIM ─── */
+  @keyframes fadeUp{from{transform:translateY(28px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  @media(max-width:600px){
+    .cur-grid{grid-template-columns:1fr;}
+    .ben-grid{grid-template-columns:1fr 1fr;}
+    .form-section{padding:28px 18px;}
+    .price-box{padding:24px 16px;}
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<div class="bg-glow g3"></div>
+
+<div class="wrap">
+
+  <!-- TOP -->
+  <div class="top-label"><span>🎓 SUMMER 2026 · دبلومة صيفية</span></div>
+  <div class="signal">
+    <div class="bar"></div><div class="bar"></div>
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Data Analysis Diploma</h1>
+    <p>من الصفر للاحتراف — ابدأ مشوارك كـ Data Analyst محترف</p>
+    <p class="tag">⚡ كل المهارات اللي سوق العمل بيطلبها في مكان واحد ⚡</p>
+  </div>
+
+  <div class="divider"><div class="dline"></div><span class="dico">◆</span><div class="dline"></div></div>
+
+  <!-- NEW BANNER -->
+  <div class="new-banner">
+    <div class="nlabel">🔥 جديد في الدبلومة دي</div>
+    <p>ضيفنا جزء <span>KPIs Analysis &amp; Troubleshooting</span><br>عشان تكون جاهز لسوق العمل بنسبة 100%</p>
+  </div>
+
+  <!-- CURRICULUM -->
+  <div class="sec-title">📚 المحتوى (من الصفر للاحتراف)</div>
+  <div class="cur-grid">
+    <div class="gen-card g2c">
+      <div class="glabel"><span class="dot"></span>2G</div>
+      <div class="gtitle">GSM &amp; GPRS &amp; EDGE</div>
+      <div class="gdetail">Drive Test + Post Processing</div>
+    </div>
+    <div class="gen-card g3c">
+      <div class="glabel"><span class="dot"></span>3G</div>
+      <div class="gtitle">CDMA + UMTS + HSPA</div>
+      <div class="gdetail">Drive Test + Post Processing</div>
+    </div>
+    <div class="gen-card g4c">
+      <div class="glabel"><span class="dot"></span>4G</div>
+      <div class="gtitle">LTE + LTE-A + LTE-A Pro</div>
+      <div class="gdetail">4G Planning + Drive Test</div>
+    </div>
+    <div class="gen-card g5c">
+      <div class="glabel"><span class="dot"></span>5G</div>
+      <div class="gtitle">SA + NSA</div>
+      <div class="gdetail">5G Planning</div>
+    </div>
+    <div class="gen-card kpic" style="grid-column:1/-1">
+      <div class="glabel"><span class="dot"></span>✨ NEW</div>
+      <div class="gtitle">KPIs Analysis &amp; Troubleshooting</div>
+      <div class="gdetail">الجزء الجديد اللي هيفرق معاك في أي إنترفيو</div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="dline"></div><span class="dico">◆</span><div class="dline"></div></div>
+
+  <!-- BENEFITS -->
+  <div class="sec-title">🎯 مش بس كورس — ده تأهيل شامل</div>
+  <div class="ben-grid">
+    <div class="ben-item"><span class="bico">📝</span><span class="btxt">تفريغ مكتوب للفيديوهات والـ Presentations</span></div>
+    <div class="ben-item"><span class="bico">🤖</span><span class="btxt">Custom AI GPT لمساعدتك في المذاكرة</span></div>
+    <div class="ben-item"><span class="bico">💼</span><span class="btxt">أهم أسئلة الإنترفيو وإجاباتها لكل وحدة</span></div>
+    <div class="ben-item"><span class="bico">📄</span><span class="btxt">كورس مجاني لتجهيز الـ CV ومهارات المقابلة</span></div>
+    <div class="ben-item"><span class="bico">🏅</span><span class="btxt">4 شهادات احترافية — شهادة لكل وحدة</span></div>
+    <div class="ben-item"><span class="bico">📊</span><span class="btxt">Excel · SQL · Python · Power BI · Tableau</span></div>
+  </div>
+
+  <!-- CERTS -->
+  <div class="certs">
+    <div class="cert">🏆 Excel</div>
+    <div class="cert">🏆 SQL</div>
+    <div class="cert">🏆 Python</div>
+    <div class="cert">🏆 Power BI &amp; Tableau</div>
+  </div>
+
+  <div class="divider"><div class="dline"></div><span class="dico">◆</span><div class="dline"></div></div>
+
+  <!-- PRICE -->
+  <div class="price-box">
+    <div class="plabel">💰 استثمارك في مستقبلك</div>
+    <div class="prices">
+      <div class="pold">7,000 ج</div>
+      <div class="pnew">4,000</div>
+      <div class="pcur">ج</div>
+    </div>
+    <div class="save">🔥 وفّر 3,000 جنيه — العرض محدود!</div>
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center; animation:fadeUp .7s ease both .6s;">
+    <a href="https://forms.gle/LocGWPSbpUkfBkFz8" target="_blank" class="submit-btn" style="display:inline-block; text-decoration:none; padding:20px 60px; font-size:clamp(17px,3vw,22px);">
+      🚀 احجز مكانك دلوقتي
+    </a>
+    <p style="margin-top:14px; font-size:13px; color:rgba(255,255,255,.35); font-weight:600;">الأماكن محدودة — سجّل قبل ما يخلص ⚡</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-row">
+    <div class="contact-item">
+      <span>💬</span>
+      <span>واتساب: <a href="https://wa.me/201119542323" target="_blank">01119542323</a></span>
+    </div>
+  </div>
+
+  <!-- HASHTAGS -->
+  <div class="hashtags">
+    <span>#Data_Analysis</span><span>#Excel</span><span>#SQL</span>
+    <span>#Python</span><span>#PowerBI</span><span>#Tableau</span>
+    <span>#DataAnalyst</span><span>#Summer2026</span>
+  </div>
+
+</div>
+
+
+</body>
+</html>
